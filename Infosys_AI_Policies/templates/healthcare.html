@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare Policies | PolicyNav</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* ===== BODY & GENERAL ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e8f0fe, #fefefe);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  color: #222;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+    width: 100%;
+    background-color: #0052D4;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+nav .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}
+
+/* ===== PAGE TITLE ===== */
+h1 {
+  margin-top: 100px; /* Adjusted for navbar */
+  font-size: 2.2rem;
+  color: #0072ff;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ===== FORM ===== */
+form {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+input[type="text"] {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+button {
+  background: linear-gradient(90deg, #0072ff, #00c6ff);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover {
+  background: linear-gradient(90deg, #0052D4, #4364F7);
+}
+
+/* ===== Result Layout Styling ===== */
+.results-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 90%;
+  margin-top: 30px;
+  justify-items: center;
+}
+
+.result-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 350px;
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.result-card:hover {
+  transform: translateY(-5px);
+}
+h3 {
+  color: #0072ff;
+  margin-bottom: 10px;
+}
+.chart-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.chart-info {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <a href="/" class="logo">PolicyNav</a>
+</nav>
+
+<h1>🏥 Healthcare Policies</h1>
+
+<form method="get" action="/healthcare">
+  <input type="text" name="query" value="{{ query or '' }}" placeholder="Search for healthcare schemes..." required>
+  <button type="submit">🔍 Search</button>
+</form>
+
+{% if results %}
+<h2>📘 Healthcare Schemes & Policies</h2>
+<div class="results-container">
+  {% for r in results[:3] %}
+  <div class="result-card">
+    <h3>{{ r.scheme_name }}</h3>
+    <p><b>Benefits:</b> {{ r.benefits }}</p>
+    <p><b>Eligibility:</b> {{ r.eligibility }}</p>
+    <p><b>Details:</b> {{ r.summary }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- ===== Charts Section ===== -->
+<div class="chart-container">
+  <canvas id="barChart"></canvas>
+  <div class="chart-info">Bar chart showing the number of beneficiaries under each healthcare policy.</div>
+</div>
+
+<div class="chart-container">
+  <canvas id="pieChart"></canvas>
+  <div class="chart-info">Pie chart representing the budget allocation for major healthcare schemes.</div>
+</div>
+
+<div class="chart-container">
+  <canvas id="lineChart"></canvas>
+  <div class="chart-info">Line chart depicting year-wise growth in healthcare coverage.</div>
+</div>
+
+<script>
+// ======== Bar Chart ========
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Ayushman Bharat', 'PM Jan Arogya Yojana', 'National Health Mission'],
+    datasets: [{
+      label: 'Beneficiaries (in millions)',
+      data: [55, 40, 70],
+      backgroundColor: ['#0072ff', '#00c6ff', '#36a2eb']
+    }]
+  },
+  options: { responsive: true }
+});
+
+// ======== Pie Chart ========
+new Chart(document.getElementById('pieChart'), {
+  type: 'pie',
+  data: {
+    labels: ['Ayushman Bharat', 'PMJAY', 'NHM'],
+    datasets: [{
+      data: [45, 25, 30],
+      backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56']
+    }]
+  },
+  options: { responsive: true }
+});
+
+// ======== Line Chart ========
+new Chart(document.getElementById('lineChart'), {
+  type: 'line',
+  data: {
+    labels: ['2019', '2020', '2021', '2022', '2023'],
+    datasets: [{
+      label: 'Healthcare Coverage Growth (%)',
+      data: [45, 50, 60, 75, 85],
+      borderColor: '#0072ff',
+      fill: false,
+      tension: 0.3
+    }]
+  },
+  options: { responsive: true }
+});
+</script>
+{% endif %}
+</body>
+</html>

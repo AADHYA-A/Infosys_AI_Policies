@@ -3,203 +3,162 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PolicyNav | Public Policy Navigation Using AI</title>
+<title>PolicyNav | Explore Public Policies</title>
 
 <style>
-    /* ======== GLOBAL STYLING ======== */
-    body {
-        font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-        background: linear-gradient(135deg, #e8f0fe, #fefefe);
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        color: #222;
-    }
+/* ===== BODY & GENERAL ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #e8f0fe, #fefefe);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    color: #222;
+}
 
-    h1 {
-        margin-top: 50px;
-        font-size: 2.2rem;
-        background: linear-gradient(90deg, #0052D4, #4364F7, #6FB1FC);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-align: center;
-    }
+/* ===== NAVBAR ===== */
+nav {
+    width: 100%;
+    background-color: #0052D4;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+nav .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+}
 
-    /* ======== SEARCH FORM ======== */
-    form {
-        margin-top: 30px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(6px);
-        padding: 20px 30px;
-        border-radius: 18px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
+/* ===== PAGE TITLE ===== */
+h1 {
+    margin-top: 100px;
+    font-size: 2.2rem;
+    background: linear-gradient(90deg, #0052D4, #4364F7, #6FB1FC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    text-align: center;
+}
 
-    input[type="text"], select {
-        padding: 12px 16px;
-        border-radius: 10px;
-        border: 1px solid #ccc;
-        font-size: 15px;
-        outline: none;
-        width: 230px;
-        background: #fff;
-    }
-
-    input[type="text"]:focus, select:focus {
-        border-color: #3498db;
-    }
-
-    button {
-        background: linear-gradient(90deg, #0072ff, #00c6ff);
-        color: white;
-        border: none;
-        padding: 12px 28px;
-        border-radius: 10px;
-        font-weight: 600;
-        font-size: 15px;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0, 114, 255, 0.2);
-    }
-
-    button:hover {
-        background: linear-gradient(90deg, #0052D4, #4364F7);
-    }
-
-    /* ======== RESULTS ======== */
-    .results-heading {
-        margin-top: 50px;
-        font-size: 1.8rem;
-        font-weight: 700;
-        text-align: center;
-        color: #2c3e50;
-    }
-
-    .results-container {
-        width: 90%;
-        max-width: 1100px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 25px;
-        margin: 40px 0 70px 0;
-    }
-
-    /* ======== CARD STYLING ======== */
-    .result-card {
-        background: #ffffffd9;
-        backdrop-filter: blur(6px);
-        border-radius: 15px;
-        padding: 22px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        border-left: 6px solid #2980b9;
-    }
-
-    .result-card h3 {
-        font-size: 18px;
-        color: #1a5276;
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-
-    .meta {
-        font-size: 14px;
-        color: #555;
-        margin: 8px 0;
-    }
-
-    .meta b {
-        color: #2c3e50;
-    }
-
-    .score {
-        font-weight: 700;
-        color: #27ae60;
-    }
-
-    .result-card p {
-        font-size: 14px;
-        color: #444;
-        line-height: 1.6;
-        margin-top: 12px;
-    }
-
-    /* ======== RESPONSIVE DESIGN ======== */
-    @media (max-width: 768px) {
-        h1 {
-            font-size: 1.8rem;
-        }
-        form {
-            padding: 15px;
-        }
-        input[type="text"], select {
-            width: 90%;
-        }
-        button {
-            width: 90%;
-        }
-    }
+/* ===== CONTAINER & BUTTON CARDS ===== */
+.container {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    width: 90%;
+    max-width: 1000px;
+}
+.button-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border-left: 6px solid #2980b9;
+}
+.button-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+button {
+    background: linear-gradient(90deg, #0072ff, #00c6ff);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    color: white;
+    font-weight: 600;
+}
+button:hover {
+    background: linear-gradient(90deg, #0052D4, #4364F7);
+}
 </style>
 </head>
 
 <body>
 
-    <h1>🔎 PolicyNav — Explore Public Policies Using AI</h1>
+<!-- ===== NAVBAR ===== -->
+<nav>
+    <a href="/" class="logo">PolicyNav</a>
+</nav>
 
-    <!-- Search and Filters -->
-    <form method="post" action="/search">
-        <input type="text" name="query" placeholder="Enter your policy query..." required>
+<h1>🔎 PolicyNav — Explore Public Policies by Category</h1>
 
-        <select name="category">
-            <option value="">🗂️ Category</option>
-            <option value="education">Education</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="agriculture">Agriculture</option>
-            <option value="employment">Employment</option>
-            <option value="women">Women Empowerment</option>
-        </select>
-
-        <select name="state">
-            <option value="">📍 State</option>
-            <option value="karnataka">Karnataka</option>
-            <option value="tamilnadu">Tamil Nadu</option>
-            <option value="maharashtra">Maharashtra</option>
-            <option value="delhi">Delhi</option>
-        </select>
-
-        <select name="year">
-            <option value="">📅 Year</option>
-            <option value="2025">2025</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-        </select>
-
-        <button type="submit">🔍 Search</button>
-    </form>
-
-    {% if results %}
-    <div class="results-heading">📘 Search Results for Government Schemes</div>
-
-    <div class="results-container">
-        {% for r in results %}
-        <div class="result-card">
-            <h3>{{ r.scheme_name }}</h3>
-            <div class="meta"><b>Benefits:</b> {{ r.benefits }}</div>
-            <div class="meta"><b>Eligibility:</b> {{ r.eligibility }}</div>
-            <div class="meta"><b>Relevance Score:</b> <span class="score">{{ r.similarity }}</span></div>
-            <p>{{ r.summary }}</p>
-        </div>
-        {% endfor %}
+<div class="container">
+    <!-- Education -->
+    <div class="button-card">
+        <h3>🎓 Education Policies</h3>
+        <p>Explore government schemes and policies promoting education and learning.</p>
+        <form method="get" action="/education">
+            <input type="hidden" name="category" value="education">
+            <button type="submit">View Education Policies</button>
+        </form>
     </div>
-    {% endif %}
+
+    <!-- Healthcare -->
+    <div class="button-card">
+        <h3>🏥 Healthcare Policies</h3>
+        <p>Discover initiatives improving healthcare access and medical infrastructure.</p>
+        <form method="get" action="/healthcare">
+            <input type="hidden" name="category" value="healthcare">
+            <button type="submit">View Healthcare Policies</button>
+        </form>
+    </div>
+
+    <!-- Agriculture -->
+    <div class="button-card">
+        <h3>🌾 Agriculture Policies</h3>
+        <p>Learn about programs supporting farmers and sustainable agriculture.</p>
+        <form method="get" action="/agriculture">
+            <input type="hidden" name="category" value="agriculture">
+            <button type="submit">View Agriculture Policies</button>
+        </form>
+    </div>
+
+    <!-- Women Empowerment -->
+    <div class="button-card">
+        <h3>👩‍💼 Women Empowerment</h3>
+        <p>Find schemes that empower and uplift women across India.</p>
+        <form method="get" action="/women">
+            <input type="hidden" name="category" value="women">
+            <button type="submit">View Women Policies</button>
+        </form>
+    </div>
+
+    <!-- Employment -->
+    <div class="button-card">
+        <h3>💼 Employment & Skill Development</h3>
+        <p>Access opportunities for jobs, training, and entrepreneurship support.</p>
+        <form method="get" action="/employment">
+            <input type="hidden" name="category" value="employment">
+            <button type="submit">View Employment Policies</button>
+        </form>
+    </div>
+
+    <!-- Quantum Technology -->
+    <div class="button-card">
+        <h3>⚛ Quantum Technology Policies</h3>
+        <p>Explore initiatives advancing quantum computing, communication, and research in India.</p>
+        <form method="get" action="/quantum">
+            <input type="hidden" name="category" value="quantum">
+            <button type="submit">View Quantum Policies</button>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

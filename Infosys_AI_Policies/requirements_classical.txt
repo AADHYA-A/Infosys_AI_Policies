@@ -1,0 +1,33 @@
+# ------------------------------------
+# Classical AI Policies (NLP + FastAPI)
+# ------------------------------------
+
+# Core Framework
+fastapi
+uvicorn
+
+# Data Handling
+pandas
+numpy
+
+# Machine Learning / NLP
+scikit-learn
+nltk
+joblib
+
+# Web Frontend
+jinja2
+requests
+
+# Visualization / Notebook Support (optional)
+matplotlib
+jupyter
+
+# File Operations
+reportlab
+
+# Voice Integration (if using TinyLlama Voice Chat)
+SpeechRecognition
+pyttsx3
+gtts
+gradio

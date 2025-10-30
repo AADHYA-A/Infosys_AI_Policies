@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantum Policies | PolicyNav</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* ===== BODY & GENERAL ===== */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #222;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  width: 100%;
+  background-color: #00796B;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+nav .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+/* ===== PAGE TITLE ===== */
+h1 {
+  margin-top: 80px; /* space for navbar */
+  font-size: 2rem;
+  color: #004D40;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ===== FORM ===== */
+form {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+input[type="text"] {
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+button {
+  background: linear-gradient(90deg, #00796B, #26A69A);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover {
+  background: linear-gradient(90deg, #004D40, #00796B);
+}
+
+/* ===== RESULTS ===== */
+.results-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 40px auto;
+  width: 90%;
+}
+.result-card {
+  background: white;
+  border-left: 5px solid #00796B;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+  padding: 15px;
+  width: 320px; /* consistent width for all cards */
+  min-height: 260px; /* optional: uniform height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+.result-card:hover {
+  transform: translateY(-3px);
+}
+h3 {
+  color: #00796B;
+  margin-bottom: 8px;
+}
+.similarity {
+  color: #004D40;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* ===== Charts Styling ===== */
+.chart-container {
+  width: 90%;
+  max-width: 450px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 15px;
+  margin: 30px 0;
+  text-align: center;
+}
+.chart-container canvas {
+  width: 100%;
+  height: 250px;
+}
+.chart-info {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  background: #004D40;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+.back-btn:hover {
+  background: #00796B;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <a href="/" class="logo">PolicyNav</a>
+</nav>
+
+<h1>⚛️ Quantum-Related Policies</h1>
+
+<form method="get" action="/quantum">
+  <input type="text" name="query" value="{{ query or '' }}" placeholder="Search quantum-related schemes..." required>
+  <button type="submit">🔍 Search</button>
+</form>
+
+{% if results %}
+<h2>📘 Quantum Schemes & Initiatives</h2>
+<div class="results-container">
+  {% for r in results[:3] %}
+  <div class="result-card">
+    <h3>{{ r.scheme_name }}</h3>
+    <p><b>Benefits:</b> {{ r.benefits }}</p>
+    <p><b>Eligibility:</b> {{ r.eligibility }}</p>
+    <p><b>Summary:</b> {{ r.summary }}</p>
+    <p class="similarity">🔹 Similarity Score: {{ r.similarity }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+<!-- ===== Charts Section ===== -->
+<div class="chart-container">
+  <canvas id="barChart"></canvas>
+  <div class="chart-info">Bar chart showing research funding allocation in major quantum policies.</div>
+</div>
+
+<div class="chart-container">
+  <canvas id="pieChart"></canvas>
+  <div class="chart-info">Pie chart representing percentage of focus areas (Quantum Computing, Communication, Sensing, etc.).</div>
+</div>
+
+<div class="chart-container">
+  <canvas id="lineChart"></canvas>
+  <div class="chart-info">Line chart showing year-wise growth in quantum policy initiatives.</div>
+</div>
+
+<a href="/" class="back-btn">⬅️ Back to All Policies</a>
+
+<script>
+// ======== Bar Chart ========
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    labels: ['NQTP', 'Quantum Mission', 'Quantum Communication'],
+    datasets: [{
+      label: 'Funding (in ₹ Crores)',
+      data: [800, 600, 400],
+      backgroundColor: ['#00796B', '#26A69A', '#004D40']
+    }]
+  },
+  options: { responsive: true }
+});
+
+// ======== Pie Chart ========
+new Chart(document.getElementById('pieChart'), {
+  type: 'pie',
+  data: {
+    labels: ['Quantum Computing', 'Quantum Sensing', 'Quantum Communication', 'Quantum Materials'],
+    datasets: [{
+      data: [40, 25, 20, 15],
+      backgroundColor: ['#4DB6AC', '#80CBC4', '#26A69A', '#00796B']
+    }]
+  },
+  options: { responsive: true }
+});
+
+// ======== Line Chart ========
+new Chart(document.getElementById('lineChart'), {
+  type: 'line',
+  data: {
+    labels: ['2019', '2020', '2021', '2022', '2023'],
+    datasets: [{
+      label: 'Policy Growth (%)',
+      data: [10, 25, 45, 65, 85],
+      borderColor: '#00796B',
+      borderWidth: 2,
+      pointBackgroundColor: '#004D40',
+      fill: false,
+      tension: 0.3
+    }]
+  },
+  options: { responsive: true }
+});
+</script>
+
+{% elif error %}
+  <p style="color:red; text-align:center;">{{ error }}</p>
+{% else %}
+  <p style="text-align:center; margin-top:20px;">Enter a query to explore quantum-related policies.</p>
+{% endif %}
+
+</body>
+</html>

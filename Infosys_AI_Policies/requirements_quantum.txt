@@ -1,0 +1,28 @@
+# ------------------------------------
+# Quantum NLP / Quantum Policies
+# ------------------------------------
+
+# Core Framework
+fastapi
+uvicorn
+
+# Classical NLP + ML
+pandas
+numpy
+scikit-learn
+nltk
+joblib
+
+# Quantum Machine Learning
+pennylane
+pennylane-qiskit
+qiskit
+qiskit-machine-learning
+
+# Data Visualization (optional)
+matplotlib
+seaborn
+
+# Web Interface (if integrated with FastAPI)
+jinja2
+requests

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register | PolicyNav</title>
+    <style>
+        body { font-family: Poppins, sans-serif; background: #eef3f8; text-align: center; }
+        form { background: white; padding: 30px; border-radius: 12px; width: 300px; margin: 80px auto; box-shadow: 0 2px 10px #ccc; }
+        input { width: 90%; padding: 8px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; }
+        button { background: #0078d7; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; }
+        a { text-decoration: none; color: #0078d7; }
+    </style>
+</head>
+<body>
+    <form action="/register" method="post">
+        <h2>📝 Register</h2>
+        {% if message %}<p style="color:red;">{{ message }}</p>{% endif %}
+        <input type="text" name="username" placeholder="Username" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <button type="submit">Register</button><br><br>
+        <a href="/login">Already have an account?</a>
+    </form>
+</body>
+</html>

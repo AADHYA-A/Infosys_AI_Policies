@@ -5,9 +5,6 @@ class UserCreate(BaseModel):
     username: str
     password: str
 
-class User(BaseModel):
-    id: int
+class UserLogin(BaseModel):
     username: str
-
-    class Config:
-        from_attributes = True  # <-- This is the Pydantic V2+ way
+    password: str
